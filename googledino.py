@@ -26,11 +26,11 @@ class GoogleDino:
         self.background2.x+=self.settings.screen_width
         self.background2.rect.x=self.background2.x
 
-        self.dino = Dino(self)
-
         self.barriers = pygame.sprite.Group()
 
         self.clouds = pygame.sprite.Group()
+
+        self.dino = Dino(self)
     
     def run_game(self):
         
@@ -43,7 +43,7 @@ class GoogleDino:
 
             self._update_barrier()
 
-            self._update_dino()
+            self.dino.update_dino()
 
             pygame.display.flip()
 
@@ -61,33 +61,6 @@ class GoogleDino:
                 if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
                     self.dino.jumping_keydown=False
     
-    def _update_dino(self):
-        if self.dino.jumping_keydown==True:
-            self.dino.jumping=True
-        if self.dino.jumping==True:
-            # print(f"{self.dino.origin_y} {self.dino.v} {self.dino.rect.y} {self.dino.y}\n")
-            self.dino.image = pygame.image.load("img\\DinoJumping.png")
-            self.dino.v+=self.settings.gravity*self.settings.gravity_offset
-            self.dino.y+=self.dino.v
-            
-            self.dino.rect.y=self.dino.y
-            if self.dino.rect.y ==self.dino.origin_y:
-                if self.dino.jumping_keydown==False:
-                    self.dino.jumping=False
-                self.dino.v=float(-self.settings.dino_jumping_speed_origin)
-                self.dino.y =  float(self.dino.rect.y)
-                # print(f"{self.dino.origin_y} {self.dino.v} {self.dino.rect.y} {self.dino.y}\n")
-            
-        else:
-            self.dino.image = pygame.image.load(self.dino.dinos[int(self.dino.choose_dino)])
-            self.dino.choose_dino = self.dino.choose_dino-0.005
-            if self.dino.choose_dino<0:
-                self.dino.choose_dino=1.99
-        self.dino.blitme()
-        self.dino.mask= pygame.mask.from_surface(self.dino.image)
-        self.collision = pygame.sprite.spritecollide(self.dino, self.barriers, False,pygame.sprite.collide_mask)
-        if self.collision:
-            sleep(0.01)
     
     def _update_barrier(self):
         self._rand_barrier()
