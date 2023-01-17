@@ -7,6 +7,7 @@ class Dino:
         self.screen = gd_game.screen
         self.settings = gd_game.settings
         self.barriers = gd_game.barriers
+        self.pteros = gd_game.pteros
         self.screen_rect = gd_game.screen.get_rect()
 
         self.choose_dino = float(0)
@@ -47,11 +48,14 @@ class Dino:
             
         else:
             self.image = pygame.image.load(self.dinos[int(self.choose_dino)])
-            self.choose_dino = self.choose_dino-0.005
+            self.choose_dino = self.choose_dino+self.settings.dino_changing_speed
             if self.choose_dino<0:
-                self.choose_dino=1.99
+                self.choose_dino=self.settings.ptero_choose_origin
         self.blitme()
         self.mask= pygame.mask.from_surface(self.image)
         self.collision = pygame.sprite.spritecollide(self, self.barriers, False, pygame.sprite.collide_mask)
         if self.collision:
-            sleep(0.01)
+            sleep(0.001)
+        self.collision = pygame.sprite.spritecollide(self, self.pteros, False, pygame.sprite.collide_mask)
+        if self.collision:
+            sleep(0.001)

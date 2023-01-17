@@ -10,6 +10,8 @@ class Settings:
         self.dino_pos_x = 5
         self.dino_pos_y = -35
         self.dino_jumping_speed_origin = 0.45
+        self.dino_changing_speed = -0.005
+        self.dino_choose_origin = 1.99
 
         self.barrier_pos_y = -36
         self.barrier_speed = 0.2
@@ -25,9 +27,19 @@ class Settings:
         self.cant_create_clouds = False
         self.clouds_create_probability_floor = 0.999
         self.clouds_create_probability_ceil = 1.999
-        self.cant_create_clouds_tim = 10.0
+        self.cant_create_clouds_tim = 10
         self.clouds_cct_countdown_speed = 0.01
         self.cloud_speed = (0.16,0.13,0.1)
+        
+        self.pteros_pos_y=-55
+        self.cant_create_ptero = False
+        self.cant_create_ptero_tim = 60
+        self.ptero_create_probability_floor = 0.999
+        self.ptero_create_probability_ceil = 1.999
+        self.ptero_cct_countdown_speed = 0.01
+        self.ptero_speed = 0.3
+        self.ptero_changing_speed = -0.005
+        self.ptero_choose_origin = 1.99
 
         self.background_pos_y = -50
         self.background_speed = 0.2

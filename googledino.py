@@ -9,6 +9,7 @@ from dinosaur import Dino
 from background import Background
 from barrier import Barrier
 from clouds import Clouds
+from ptero import Ptero
 
 class GoogleDino:
 
@@ -28,23 +29,17 @@ class GoogleDino:
 
         self.barriers = pygame.sprite.Group()
 
+        self.pteros = pygame.sprite.Group()
+
         self.clouds = pygame.sprite.Group()
 
         self.dino = Dino(self)
     
     def run_game(self):
-        
         while(True):
             self._check_events()
             self.screen.fill(self.settings.bg_color)
-            self._update_background()
-
-            self._update_clouds()
-
-            self._update_barrier()
-
-            self.dino.update_dino()
-
+            self._update_game()
             pygame.display.flip()
 
     def _check_events(self):
@@ -61,35 +56,29 @@ class GoogleDino:
                 if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
                     self.dino.jumping_keydown=False
     
-    
-    def _update_barrier(self):
-        self._rand_barrier()
-        for barrier in self.barriers:
-            barrier.x-=self.settings.barrier_speed
-            barrier.rect.x=barrier.x
-            if barrier.rect.x<(-barrier.rect.width):
-                self.barriers.remove(barrier)
-                #print("deleted 1 barrier!!!\n")
-        self.barriers.draw(self.screen)
-    
-    def _create_barrier(self):
-        new_barrier = Barrier(self)
-        self.barriers.add(new_barrier)
+    def _update_game(self):
+        self._update_background()
 
-    def _rand_barrier(self):
-        if(self.settings.cant_create_barrier == False):
-            self.barrier_creating_flag = uniform(self.settings.barrier_create_probability_floor,self.settings.barrier_create_probability_ceil)
-            # print(f"{self.barrier_creating_flag}\n")
-            if int(self.barrier_creating_flag) == 0:
-                self._create_barrier()
-                self.settings.barrier_create_probability_floor-=self.settings.barrier_create_probability_drop_speed
-                self.settings.cant_create_barrier = True
-                self.cant_create_barrier_tim=self.settings.cant_create_barrier_tim
-        else:
-            self.cant_create_barrier_tim-=self.settings.barrier_cct_countdown_speed
-            if self.cant_create_barrier_tim<=0:
-                self.settings.cant_create_barrier=False
-                
+        self._update_clouds()
+
+        self._update_barrier()
+            
+        self._update_ptero()
+
+        self.dino.update_dino()
+
+    def _update_background(self):
+        self.background1.x-=self.settings.background_speed
+        if self.background1.x<(-self.settings.screen_width):
+            self.background1.x=float(self.settings.screen_width)
+        self.background1.rect.x=self.background1.x
+        self.background2.x-=self.settings.background_speed
+        if self.background2.x<(-self.settings.screen_width):
+            self.background2.x=float(self.settings.screen_width)
+        self.background2.rect.x=self.background2.x
+        self.background1.blitme()
+        self.background2.blitme()
+
     def _create_clouds(self):
         new_clouds = Clouds(self)
         self.clouds.add(new_clouds)
@@ -118,17 +107,65 @@ class GoogleDino:
                 #print("deleted 1 cloud!!!\n")
         self.clouds.draw(self.screen) 
 
-    def _update_background(self):
-        self.background1.x-=self.settings.background_speed
-        if self.background1.x<(-self.settings.screen_width):
-            self.background1.x=float(self.settings.screen_width)
-        self.background1.rect.x=self.background1.x
-        self.background2.x-=self.settings.background_speed
-        if self.background2.x<(-self.settings.screen_width):
-            self.background2.x=float(self.settings.screen_width)
-        self.background2.rect.x=self.background2.x
-        self.background1.blitme()
-        self.background2.blitme()
+    def _update_barrier(self):
+        self._rand_barrier()
+        for barrier in self.barriers:
+            barrier.x-=self.settings.barrier_speed
+            barrier.rect.x=barrier.x
+            if barrier.rect.x<(-barrier.rect.width):
+                self.barriers.remove(barrier)
+                #print("deleted 1 barrier!!!\n")
+        self.barriers.draw(self.screen)
+    
+    def _create_barrier(self):
+        new_barrier = Barrier(self)
+        self.barriers.add(new_barrier)
+
+    def _rand_barrier(self):
+        if(self.settings.cant_create_barrier == False):
+            self.barrier_creating_flag = uniform(self.settings.barrier_create_probability_floor,self.settings.barrier_create_probability_ceil)
+            # print(f"{self.barrier_creating_flag}\n")
+            if int(self.barrier_creating_flag) == 0:
+                self._create_barrier()
+                self.settings.barrier_create_probability_floor-=self.settings.barrier_create_probability_drop_speed
+                self.settings.cant_create_barrier = True
+                self.cant_create_barrier_tim=self.settings.cant_create_barrier_tim
+        else:
+            self.cant_create_barrier_tim-=self.settings.barrier_cct_countdown_speed
+            if self.cant_create_barrier_tim<=0:
+                self.settings.cant_create_barrier=False
+    
+    def _create_ptero(self):
+        new_ptero = Ptero(self)
+        self.pteros.add(new_ptero)
+
+    def _rand_ptero(self):
+        if(self.settings.cant_create_ptero==False):
+            self.ptero_creating_flag = uniform(self.settings.ptero_create_probability_floor,self.settings.ptero_create_probability_ceil)
+            #print(f"{self.ptero_creating_flag}\n")
+            if int(self.ptero_creating_flag) == 0:
+                self._create_ptero()
+                self.settings.cant_create_ptero = True
+                self.cant_create_ptero_tim=self.settings.cant_create_ptero_tim
+        else:
+            self.cant_create_ptero_tim-=self.settings.ptero_cct_countdown_speed
+            #print(f"{self.cant_create_ptero_tim}\n")
+            if int(self.cant_create_ptero_tim)<=0:
+                self.settings.cant_create_ptero = False
+
+    def _update_ptero(self):
+        self._rand_ptero()
+        for ptero in self.pteros:
+            ptero.image = pygame.image.load(ptero.pteros[int(ptero.choose_ptero)])
+            ptero.choose_ptero = ptero.choose_ptero+self.settings.ptero_changing_speed
+            if ptero.choose_ptero<0:
+                ptero.choose_ptero=self.settings.ptero_choose_origin
+            ptero.x-=self.settings.ptero_speed
+            ptero.rect.x=ptero.x
+            if ptero.rect.x<(-ptero.rect.width):
+                self.pteros.remove(ptero)
+                # print("deleted 1 ptero!!!\n")
+        self.pteros.draw(self.screen)
 
 if __name__ == "__main__":
     gd = GoogleDino()
