@@ -2,7 +2,6 @@ import sys
 
 import pygame
 from random import uniform
-from time import sleep
 
 from settings import Settings
 from dinosaur import Dino
@@ -52,10 +51,15 @@ class GoogleDino:
                     sys.exit()
                 elif event.key == pygame.K_UP or event.key == pygame.K_SPACE:
                     self.dino.jumping_keydown=True
+                elif event.key == pygame.K_DOWN:
+                    if self.dino.jumping==False:
+                        self.dino.ducking_keydown=True
             
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
                     self.dino.jumping_keydown=False
+                elif event.key == pygame.K_DOWN:
+                    self.dino.ducking_keydown=False
     
     def _update_game(self):
         self._update_background()

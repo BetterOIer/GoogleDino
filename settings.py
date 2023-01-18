@@ -14,6 +14,7 @@ class Settings:
         self.dino_jumping_speed_origin = 1.0*4*self.dino_max_jumping_height/(self.dino_each_jumping_time*self.dino_FPS)
         self.dino_changing_speed = -0.1
         self.dino_choose_origin = 1.99999999999999
+        self.dino_y_ducking_offset= 13
 
         self.barrier_pos_y = -34
         self.barrier_speed = 2.5

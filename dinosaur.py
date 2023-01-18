@@ -11,7 +11,9 @@ class Dino:
         self.screen_rect = gd_game.screen.get_rect()
 
         self.choose_dino = float(0)
+        self.choose_dino_when_ducking = float(0)
         self.dinos = ("img\\Dino1.png","img\\Dino2.png")
+        self.dinos_when_ducking = ("img\\DinoDucking1.png","img\\DinoDucking2.png")
         self.image = pygame.image.load(self.dinos[int(self.choose_dino)])
         self.mask= pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
@@ -19,12 +21,15 @@ class Dino:
         self.rect.midleft = self.screen_rect.midleft
         self.y=float(gd_game.bg_y+self.settings.dino_pos_y)
         self.origin_y = gd_game.bg_y+self.settings.dino_pos_y
+        self.origin_y_when_ducking = gd_game.bg_y+self.settings.dino_pos_y + self.settings.dino_y_ducking_offset
         self.rect.x+=(self.settings.screen_width/self.settings.dino_pos_x)
         self.rect.y=self.y
         
         self.jumping_keydown=False
         self.jumping = False
         self.v = float(-self.settings.dino_jumping_speed_origin)
+
+        self.ducking_keydown=False
 
     def blitme(self):
         self.screen.blit(self.image,self.rect)
@@ -46,8 +51,18 @@ class Dino:
                 self.y =  float(self.rect.y)
                 # print(f"{self.origin_y} {self.v} {self.rect.y} {self.y}\n")
             
+        elif self.ducking_keydown==True:
+            self.image = pygame.image.load(self.dinos_when_ducking[int(self.choose_dino_when_ducking)])
+            self.y=self.origin_y_when_ducking
+            self.rect.y = self.y
+            self.choose_dino_when_ducking = self.choose_dino_when_ducking+self.settings.dino_changing_speed
+            if self.choose_dino_when_ducking<0:
+                self.choose_dino_when_ducking=self.settings.dino_choose_origin
+            
         else:
             self.image = pygame.image.load(self.dinos[int(self.choose_dino)])
+            self.y=self.origin_y
+            self.rect.y = self.y
             self.choose_dino = self.choose_dino+self.settings.dino_changing_speed
             if self.choose_dino<0:
                 self.choose_dino=self.settings.dino_choose_origin
