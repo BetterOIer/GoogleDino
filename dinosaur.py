@@ -50,12 +50,12 @@ class Dino:
             self.image = pygame.image.load(self.dinos[int(self.choose_dino)])
             self.choose_dino = self.choose_dino+self.settings.dino_changing_speed
             if self.choose_dino<0:
-                self.choose_dino=self.settings.ptero_choose_origin
+                self.choose_dino=self.settings.dino_choose_origin
         self.blitme()
         self.mask= pygame.mask.from_surface(self.image)
         self.collision = pygame.sprite.spritecollide(self, self.barriers, False, pygame.sprite.collide_mask)
         if self.collision:
-            sleep(0.001)
+            sleep(0.1)
         self.collision = pygame.sprite.spritecollide(self, self.pteros, False, pygame.sprite.collide_mask)
         if self.collision:
-            sleep(0.001)
+            sleep(0.1)
