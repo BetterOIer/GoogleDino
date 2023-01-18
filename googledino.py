@@ -16,7 +16,7 @@ class GoogleDino:
     def __init__(self):
         """Init game"""
         pygame.init()
-        
+        self.clock = pygame.time.Clock()  
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_width,self.settings.screen_height))
         pygame.display.set_caption("Google Dino")
@@ -40,6 +40,7 @@ class GoogleDino:
             self._check_events()
             self.screen.fill(self.settings.bg_color)
             self._update_game()
+            self.clock.tick(120)
             pygame.display.flip()
 
     def _check_events(self):

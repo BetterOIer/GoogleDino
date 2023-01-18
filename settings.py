@@ -2,15 +2,14 @@ class Settings:
     """Settings"""
     def __init__(self):
         self.screen_width = 1284
-        self.screen_height = 200
+        self.screen_height = 240
         self.bg_color = (255,255,255)
-        self.gravity=10
-        self.gravity_offset=0.0001
+        self.gravity=float(256/2160)
 
         self.dino_pos_x = 5
         self.dino_pos_y = -35
-        self.dino_jumping_speed_origin = 0.45
-        self.dino_changing_speed = -0.005
+        self.dino_jumping_speed_origin = (16/3)
+        self.dino_changing_speed = -0.05
         self.dino_choose_origin = 1.99
 
         self.barrier_pos_y = -36

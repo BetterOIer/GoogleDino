@@ -35,7 +35,7 @@ class Dino:
         if self.jumping==True:
             # print(f"{self.origin_y} {self.v} {self.rect.y} {self.y}\n")
             self.image = pygame.image.load("img\\DinoJumping.png")
-            self.v+=self.settings.gravity*self.settings.gravity_offset
+            self.v+=float(self.settings.gravity)
             self.y+=self.v
             
             self.rect.y=self.y
