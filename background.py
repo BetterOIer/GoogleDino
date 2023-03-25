@@ -15,3 +15,9 @@ class Background:
     
     def blitme(self):
         self.screen.blit(self.image,self.rect)
+    
+    def update_background(self):
+        self.x-=self.settings.background_speed
+        if self.x<(-self.settings.screen_width):
+            self.x=float(self.settings.screen_width)
+        self.rect.x=self.x

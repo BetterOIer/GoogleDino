@@ -87,14 +87,8 @@ class GoogleDino:
         self.screen.fill(self.settings.bg_color)
 
     def _update_background(self):
-        self.background1.x-=self.settings.background_speed
-        if self.background1.x<(-self.settings.screen_width):
-            self.background1.x=float(self.settings.screen_width)
-        self.background1.rect.x=self.background1.x
-        self.background2.x-=self.settings.background_speed
-        if self.background2.x<(-self.settings.screen_width):
-            self.background2.x=float(self.settings.screen_width)
-        self.background2.rect.x=self.background2.x
+        self.background1.update_background()
+        self.background2.update_background()
         self.background1.blitme()
         self.background2.blitme()
 
