@@ -11,6 +11,7 @@ from barrier import Barrier
 from clouds import Clouds
 from ptero import Ptero
 from stats import Stats
+from button import Button
 
 class GoogleDino:
 
@@ -37,13 +38,20 @@ class GoogleDino:
         self.clouds = pygame.sprite.Group()
 
         self.dino = Dino(self)
+
+        self.play_button = Button(self,"Start")
     
     def run_game(self):
         while True:
+            self.screen.fill(self.settings.bg_color)
             self._check_events()
+
             if self.stats.game_active==True:
                 self._update_game()
-                pygame.display.flip()
+            if self.stats.game_active==False:
+                self.play_button.draw_button()
+            
+            pygame.display.flip()
             self.clock.tick(120)
 
     def _check_events(self):
@@ -68,10 +76,12 @@ class GoogleDino:
                         self.dino.jumping_keydown=False
                     elif event.key == pygame.K_DOWN:
                         self.dino.ducking_keydown=False
+            
+            elif event.type ==pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
     
     def _update_game(self):
-
-        self._update_screen()
 
         self._update_background()
 
@@ -82,10 +92,7 @@ class GoogleDino:
         self._update_ptero()
 
         self.dino.update_dino()
-    
-    def _update_screen(self):
-        self.screen.fill(self.settings.bg_color)
-
+        
     def _update_background(self):
         self.background1.update_background()
         self.background2.update_background()
@@ -179,6 +186,10 @@ class GoogleDino:
                 self.pteros.remove(ptero)
                 # print("deleted 1 ptero!!!\n")
         self.pteros.draw(self.screen)
+
+    def _check_play_button(self, mouse_pos):
+        if self.play_button.rect.collidepoint(mouse_pos):
+            self.stats.game_active = True
 
 if __name__ == "__main__":
     gd = GoogleDino()

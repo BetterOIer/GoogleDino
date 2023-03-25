@@ -1,4 +1,4 @@
 class Stats:
 
     def __init__(self):
-        self.game_active=True
+        self.game_active=False
