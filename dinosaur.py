@@ -71,9 +71,9 @@ class Dino:
         self.mask= pygame.mask.from_surface(self.image)
         self.collision = pygame.sprite.spritecollide(self, self.barriers, False, pygame.sprite.collide_mask)
         if self.collision:
-            #sleep(0.1)
+            sleep(1)
             self.stats.game_active=False
         self.collision = pygame.sprite.spritecollide(self, self.pteros, False, pygame.sprite.collide_mask)
         if self.collision:
-            #sleep(0.1)
+            sleep(1)
             self.stats.game_active=False

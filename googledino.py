@@ -190,6 +190,23 @@ class GoogleDino:
     def _check_play_button(self, mouse_pos):
         if self.play_button.rect.collidepoint(mouse_pos):
             self.stats.game_active = True
+            self._game_reset()
+    
+    def _game_reset(self):
+        self.settings = Settings()
+        self.background1 = Background(self)
+        self.background2 = Background(self)
+        self.bg_y = self.background1.rect.y
+        self.background2.x+=self.settings.screen_width
+        self.background2.rect.x=self.background2.x
+
+        self.barriers = pygame.sprite.Group()
+
+        self.pteros = pygame.sprite.Group()
+
+        self.clouds = pygame.sprite.Group()
+
+        self.dino = Dino(self)
 
 if __name__ == "__main__":
     gd = GoogleDino()
