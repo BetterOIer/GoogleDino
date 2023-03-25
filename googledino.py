@@ -2,6 +2,7 @@ import sys
 
 import pygame
 from random import uniform
+from time import sleep
 
 from settings import Settings
 from dinosaur import Dino
@@ -9,6 +10,7 @@ from background import Background
 from barrier import Barrier
 from clouds import Clouds
 from ptero import Ptero
+from stats import Stats
 
 class GoogleDino:
 
@@ -19,6 +21,8 @@ class GoogleDino:
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_width,self.settings.screen_height))
         pygame.display.set_caption("Google Dino")
+
+        self.stats = Stats()
 
         self.background1 = Background(self)
         self.background2 = Background(self)
@@ -35,12 +39,12 @@ class GoogleDino:
         self.dino = Dino(self)
     
     def run_game(self):
-        while(True):
+        while True:
             self._check_events()
-            self.screen.fill(self.settings.bg_color)
-            self._update_game()
+            if self.stats.game_active==True:
+                self._update_game()
+                pygame.display.flip()
             self.clock.tick(120)
-            pygame.display.flip()
 
     def _check_events(self):
         for event in pygame.event.get():
@@ -49,19 +53,26 @@ class GoogleDino:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     sys.exit()
-                elif event.key == pygame.K_UP or event.key == pygame.K_SPACE:
-                    self.dino.jumping_keydown=True
-                elif event.key == pygame.K_DOWN:
-                    if self.dino.jumping==False:
-                        self.dino.ducking_keydown=True
+                elif self.stats.game_active == True:
+                    if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
+                        self.dino.jumping_keydown=True
+                    elif event.key == pygame.K_DOWN:
+                        if self.dino.jumping == False:
+                            self.dino.ducking_keydown=True
+                elif event.key == pygame.K_SPACE:
+                    self.stats.game_active = True
             
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
-                    self.dino.jumping_keydown=False
-                elif event.key == pygame.K_DOWN:
-                    self.dino.ducking_keydown=False
+                if self.stats.game_active==True:
+                    if event.key == pygame.K_UP or event.key == pygame.K_SPACE:
+                        self.dino.jumping_keydown=False
+                    elif event.key == pygame.K_DOWN:
+                        self.dino.ducking_keydown=False
     
     def _update_game(self):
+
+        self._update_screen()
+
         self._update_background()
 
         self._update_clouds()
@@ -71,6 +82,9 @@ class GoogleDino:
         self._update_ptero()
 
         self.dino.update_dino()
+    
+    def _update_screen(self):
+        self.screen.fill(self.settings.bg_color)
 
     def _update_background(self):
         self.background1.x-=self.settings.background_speed

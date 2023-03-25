@@ -6,6 +6,7 @@ class Dino:
     def __init__(self, gd_game):
         self.screen = gd_game.screen
         self.settings = gd_game.settings
+        self.stats = gd_game.stats
         self.barriers = gd_game.barriers
         self.pteros = gd_game.pteros
         self.screen_rect = gd_game.screen.get_rect()
@@ -70,7 +71,9 @@ class Dino:
         self.mask= pygame.mask.from_surface(self.image)
         self.collision = pygame.sprite.spritecollide(self, self.barriers, False, pygame.sprite.collide_mask)
         if self.collision:
-            sleep(0.1)
+            #sleep(0.1)
+            self.stats.game_active=False
         self.collision = pygame.sprite.spritecollide(self, self.pteros, False, pygame.sprite.collide_mask)
         if self.collision:
-            sleep(0.1)
+            #sleep(0.1)
+            self.stats.game_active=False
