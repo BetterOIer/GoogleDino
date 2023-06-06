@@ -5,11 +5,18 @@ class Settings:
         self.screen_height = 220
         self.bg_color = (255,255,255)
         
-        self.button_width,self.button_height = 200,50
+        self.button_width,self.button_height = 100,50
         self.button_color = (172, 171, 176)
         self.button_text_color = (255, 255, 255)
         self.button_text_size = 36
         self.button_text_font_family = "Consolas"
+
+        self.score_width,self.score_height = 200,50
+        self.score_text_color = (172, 171, 176)
+        self.score_text_size = 24
+        self.score_text_font_family = "Consolas"
+        self.score_origin = 0
+        self.score_rise_speed = 10
 
         self.dino_each_jumping_time = 0.5
         self.dino_FPS = 60

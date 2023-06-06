@@ -71,8 +71,9 @@ class GoogleDino:
                     elif event.key == pygame.K_DOWN:
                         if self.dino.jumping == False:
                             self.dino.ducking_keydown=True
-                elif event.key == pygame.K_SPACE:
-                    self.stats.game_active = True
+                elif self.stats.game_active == False:
+                    if event.key == pygame.K_SPACE:
+                        self.stats.game_active = True
             
             elif event.type == pygame.KEYUP:
                 if self.stats.game_active==True:
