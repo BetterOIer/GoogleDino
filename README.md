@@ -4,3 +4,5 @@
 - Dino二连跳，冲刺，减速功能
 - 积分系统(IN DEVLOPMENT)
 - 流星(考虑)
+
+Why not ⭐STAR⭐ it to encourage me to keep on?
